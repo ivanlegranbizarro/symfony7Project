@@ -32,7 +32,9 @@
           <td>{{ post.author }}</td>
           <td>
             <a href="{{ path('app_post_show', { id: post.id }) }}">show</a>
-            <a href="{{ path('app_post_edit', { id: post.id }) }}">edit</a>
+            {% if app.user == post.author or is_granted('ROLE_ADMIN') %}
+              <a href="{{ path('app_post_edit', { id: post.id }) }}">edit</a>
+            {% endif %}
           </td>
         </tr>
       {% else %}

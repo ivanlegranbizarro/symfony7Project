@@ -56,6 +56,10 @@ class PostController extends AbstractController
   #[Route('/{id}/edit', name: 'app_post_edit', methods: ['GET', 'POST'])]
   public function edit(Request $request, Post $post, EntityManagerInterface $entityManager): Response
   {
+    if ($this->getUser() !== $post->getAuthor()) {
+      $this->addFlash('error', 'You are not allowed to edit this post!');
+      return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+    }
     $form = $this->createForm(PostType::class, $post);
     $form->handleRequest($request);
 
