@@ -34,6 +34,8 @@ class PostController extends AbstractController
       $entityManager->persist($post);
       $entityManager->flush();
 
+      $this->addFlash('success', 'Your post has been created!');
+
       return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
     }
 
@@ -75,6 +77,7 @@ class PostController extends AbstractController
     if ($this->isCsrfTokenValid('delete' . $post->getId(), $request->getPayload()->get('_token'))) {
       $entityManager->remove($post);
       $entityManager->flush();
+      $this->addFlash('success', 'Your post has been deleted!');
     }
 
     return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
